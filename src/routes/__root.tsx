@@ -86,11 +86,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Inmobiliaria en Posadas, Misiones. Venta, alquiler, alquiler temporal, tasaciones y administración de alquileres con más de 20 años de trayectoria.",
+          "Venta, alquiler, alquiler temporal, tasaciones y administración de alquileres en Posadas y toda Misiones. Más de 20 años de trayectoria.",
       },
       { name: "author", content: "Curto & De Oliveira Negocios Inmobiliarios" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Curto & De Oliveira | Inmobiliaria en Posadas, Misiones" },
+      { name: "twitter:title", content: "Curto & De Oliveira | Inmobiliaria en Posadas, Misiones" },
+      { property: "og:description", content: "Venta, alquiler, alquiler temporal, tasaciones y administración de alquileres en Posadas y toda Misiones. Más de 20 años de trayectoria." },
+      { name: "twitter:description", content: "Venta, alquiler, alquiler temporal, tasaciones y administración de alquileres en Posadas y toda Misiones. Más de 20 años de trayectoria." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
