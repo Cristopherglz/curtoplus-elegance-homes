@@ -10,11 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NosotrosRouteImport } from './routes/nosotros'
+import { Route as ServiciosRouteImport } from './routes/servicios'
+import { Route as PropiedadesIndexRouteImport } from './routes/propiedades.index'
+import { Route as PropiedadesIdRouteImport } from './routes/propiedades.$id'
 import { Route as ApiPublicImagenSplatRouteImport } from './routes/api/public/imagen.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NosotrosRoute = NosotrosRouteImport.update({
+  id: '/nosotros',
+  path: '/nosotros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosRoute = ServiciosRouteImport.update({
+  id: '/servicios',
+  path: '/servicios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropiedadesIndexRoute = PropiedadesIndexRouteImport.update({
+  id: '/propiedades/',
+  path: '/propiedades/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropiedadesIdRoute = PropiedadesIdRouteImport.update({
+  id: '/propiedades/$id',
+  path: '/propiedades/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicImagenSplatRoute = ApiPublicImagenSplatRouteImport.update({
@@ -25,27 +49,62 @@ const ApiPublicImagenSplatRoute = ApiPublicImagenSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/nosotros': typeof NosotrosRoute
+  '/servicios': typeof ServiciosRoute
+  '/propiedades/$id': typeof PropiedadesIdRoute
+  '/propiedades/': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/nosotros': typeof NosotrosRoute
+  '/servicios': typeof ServiciosRoute
+  '/propiedades/$id': typeof PropiedadesIdRoute
+  '/propiedades': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/nosotros': typeof NosotrosRoute
+  '/servicios': typeof ServiciosRoute
+  '/propiedades/$id': typeof PropiedadesIdRoute
+  '/propiedades/': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/imagen/$'
+  fullPaths:
+    | '/'
+    | '/nosotros'
+    | '/servicios'
+    | '/propiedades/$id'
+    | '/propiedades/'
+    | '/api/public/imagen/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/imagen/$'
-  id: '__root__' | '/' | '/api/public/imagen/$'
+  to:
+    | '/'
+    | '/nosotros'
+    | '/servicios'
+    | '/propiedades/$id'
+    | '/propiedades'
+    | '/api/public/imagen/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/nosotros'
+    | '/servicios'
+    | '/propiedades/$id'
+    | '/propiedades/'
+    | '/api/public/imagen/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  NosotrosRoute: typeof NosotrosRoute
+  ServiciosRoute: typeof ServiciosRoute
+  PropiedadesIdRoute: typeof PropiedadesIdRoute
+  PropiedadesIndexRoute: typeof PropiedadesIndexRoute
   ApiPublicImagenSplatRoute: typeof ApiPublicImagenSplatRoute
 }
 
@@ -56,6 +115,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nosotros': {
+      id: '/nosotros'
+      path: '/nosotros'
+      fullPath: '/nosotros'
+      preLoaderRoute: typeof NosotrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios': {
+      id: '/servicios'
+      path: '/servicios'
+      fullPath: '/servicios'
+      preLoaderRoute: typeof ServiciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/propiedades/': {
+      id: '/propiedades/'
+      path: '/propiedades'
+      fullPath: '/propiedades/'
+      preLoaderRoute: typeof PropiedadesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/propiedades/$id': {
+      id: '/propiedades/$id'
+      path: '/propiedades/$id'
+      fullPath: '/propiedades/$id'
+      preLoaderRoute: typeof PropiedadesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/imagen/$': {
@@ -70,6 +157,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  NosotrosRoute: NosotrosRoute,
+  ServiciosRoute: ServiciosRoute,
+  PropiedadesIdRoute: PropiedadesIdRoute,
+  PropiedadesIndexRoute: PropiedadesIndexRoute,
   ApiPublicImagenSplatRoute: ApiPublicImagenSplatRoute,
 }
 export const routeTree = rootRouteImport

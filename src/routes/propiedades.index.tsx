@@ -5,7 +5,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { PropertyCard } from "@/components/PropertyCard";
 import { fetchPublicProperties, OPERATIONS, PROPERTY_TYPES } from "@/lib/properties";
 
-export const Route = createFileRoute("/propiedades")({
+export const Route = createFileRoute("/propiedades/")({
   head: () => ({
     meta: [
       { title: "Propiedades en venta y alquiler en Posadas | Curto & De Oliveira" },
