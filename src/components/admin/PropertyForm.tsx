@@ -92,9 +92,9 @@ export function PropertyForm({ property }: { property?: Property }) {
       const payload = {
         title: String(form.title).trim(),
         description: String(form.description ?? "").trim(),
-        operation: form.operation,
-        property_type: form.property_type,
-        status: form.status,
+        operation: String(form.operation),
+        property_type: String(form.property_type),
+        status: String(form.status),
         sale_price_usd: num(form.sale_price_usd),
         sale_price_ars: num(form.sale_price_ars),
         rent_price_usd: num(form.rent_price_usd),

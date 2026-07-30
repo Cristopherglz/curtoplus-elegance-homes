@@ -16,8 +16,10 @@ import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as ServiciosRouteImport } from './routes/servicios'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminNuevaRouteImport } from './routes/admin.nueva'
 import { Route as PropiedadesIndexRouteImport } from './routes/propiedades.index'
 import { Route as PropiedadesIdRouteImport } from './routes/propiedades.$id'
+import { Route as AdminEditarIdRouteImport } from './routes/admin.editar.$id'
 import { Route as ApiPublicImagenSplatRouteImport } from './routes/api/public/imagen.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +57,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminNuevaRoute = AdminNuevaRouteImport.update({
+  id: '/nueva',
+  path: '/nueva',
+  getParentRoute: () => AdminRoute,
+} as any)
 const PropiedadesIndexRoute = PropiedadesIndexRouteImport.update({
   id: '/propiedades/',
   path: '/propiedades/',
@@ -64,6 +71,11 @@ const PropiedadesIdRoute = PropiedadesIdRouteImport.update({
   id: '/propiedades/$id',
   path: '/propiedades/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminEditarIdRoute = AdminEditarIdRouteImport.update({
+  id: '/editar/$id',
+  path: '/editar/$id',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicImagenSplatRoute = ApiPublicImagenSplatRouteImport.update({
   id: '/api/public/imagen/$',
@@ -78,9 +90,11 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin/': typeof AdminIndexRoute
   '/propiedades/': typeof PropiedadesIndexRoute
+  '/admin/editar/$id': typeof AdminEditarIdRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRoutesByTo {
@@ -89,9 +103,11 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin': typeof AdminIndexRoute
   '/propiedades': typeof PropiedadesIndexRoute
+  '/admin/editar/$id': typeof AdminEditarIdRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRoutesById {
@@ -102,9 +118,11 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin/': typeof AdminIndexRoute
   '/propiedades/': typeof PropiedadesIndexRoute
+  '/admin/editar/$id': typeof AdminEditarIdRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRouteTypes {
@@ -116,9 +134,11 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin/'
     | '/propiedades/'
+    | '/admin/editar/$id'
     | '/api/public/imagen/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -127,9 +147,11 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin'
     | '/propiedades'
+    | '/admin/editar/$id'
     | '/api/public/imagen/$'
   id:
     | '__root__'
@@ -139,9 +161,11 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin/'
     | '/propiedades/'
+    | '/admin/editar/$id'
     | '/api/public/imagen/$'
   fileRoutesById: FileRoutesById
 }
@@ -208,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/nueva': {
+      id: '/admin/nueva'
+      path: '/nueva'
+      fullPath: '/admin/nueva'
+      preLoaderRoute: typeof AdminNuevaRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/propiedades/': {
       id: '/propiedades/'
       path: '/propiedades'
@@ -222,6 +253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropiedadesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/editar/$id': {
+      id: '/admin/editar/$id'
+      path: '/editar/$id'
+      fullPath: '/admin/editar/$id'
+      preLoaderRoute: typeof AdminEditarIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/public/imagen/$': {
       id: '/api/public/imagen/$'
       path: '/api/public/imagen/$'
@@ -233,11 +271,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminNuevaRoute: typeof AdminNuevaRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminEditarIdRoute: typeof AdminEditarIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminNuevaRoute: AdminNuevaRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminEditarIdRoute: AdminEditarIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
