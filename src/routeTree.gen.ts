@@ -10,10 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as ServiciosRouteImport } from './routes/servicios'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PropiedadesIndexRouteImport } from './routes/propiedades.index'
 import { Route as PropiedadesIdRouteImport } from './routes/propiedades.$id'
 import { Route as ApiPublicImagenSplatRouteImport } from './routes/api/public/imagen.$'
@@ -21,6 +23,11 @@ import { Route as ApiPublicImagenSplatRouteImport } from './routes/api/public/im
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -43,6 +50,11 @@ const ServiciosRoute = ServiciosRouteImport.update({
   path: '/servicios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const PropiedadesIndexRoute = PropiedadesIndexRouteImport.update({
   id: '/propiedades/',
   path: '/propiedades/',
@@ -61,11 +73,13 @@ const ApiPublicImagenSplatRoute = ApiPublicImagenSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/propiedades/': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
@@ -76,17 +90,20 @@ export interface FileRoutesByTo {
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
+  '/admin': typeof AdminIndexRoute
   '/propiedades': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/propiedades/': typeof PropiedadesIndexRoute
   '/api/public/imagen/$': typeof ApiPublicImagenSplatRoute
 }
@@ -94,11 +111,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/auth'
     | '/contacto'
     | '/nosotros'
     | '/servicios'
     | '/propiedades/$id'
+    | '/admin/'
     | '/propiedades/'
     | '/api/public/imagen/$'
   fileRoutesByTo: FileRoutesByTo
@@ -109,22 +128,26 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/servicios'
     | '/propiedades/$id'
+    | '/admin'
     | '/propiedades'
     | '/api/public/imagen/$'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/auth'
     | '/contacto'
     | '/nosotros'
     | '/servicios'
     | '/propiedades/$id'
+    | '/admin/'
     | '/propiedades/'
     | '/api/public/imagen/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   ContactoRoute: typeof ContactoRoute
   NosotrosRoute: typeof NosotrosRoute
@@ -141,6 +164,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -171,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServiciosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/propiedades/': {
       id: '/propiedades/'
       path: '/propiedades'
@@ -195,8 +232,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   ContactoRoute: ContactoRoute,
   NosotrosRoute: NosotrosRoute,
