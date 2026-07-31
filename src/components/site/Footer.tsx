@@ -1,19 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { SITE } from "@/lib/site";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="surface-navy mt-24">
+    <footer className="surface-navy mt-24 rounded-t-[2rem]">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-4 lg:px-8">
         <div className="lg:col-span-2">
-          <p className="font-display text-3xl text-navy-foreground">Curto &amp; De Oliveira</p>
-          <p className="eyebrow mt-2 text-[0.6rem] text-gold">Negocios Inmobiliarios</p>
+          <div className="inline-flex">
+            <Logo tone="light" />
+          </div>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-navy-foreground/70">
             Más de 20 años acompañando a familias e inversores de Misiones y el NEA con
             asesoramiento discreto, documentación al día y operaciones garantizadas.
           </p>
         </div>
+
 
         <div>
           <p className="eyebrow text-[0.6rem] text-gold">Navegación</p>
