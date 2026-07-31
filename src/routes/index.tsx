@@ -91,7 +91,7 @@ function Home() {
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               to="/propiedades"
-              className="group inline-flex items-center gap-3 bg-gold px-8 py-4 text-sm tracking-wide text-navy-deep transition-colors hover:bg-gold-soft"
+              className="group inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-medium text-navy-deep transition-colors hover:bg-gold-soft"
             >
               Ver propiedades
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -100,11 +100,12 @@ function Home() {
               href={waLink("Hola! Quisiera hacer una consulta inmobiliaria.")}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 border border-navy-foreground/40 px-8 py-4 text-sm tracking-wide text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
+              className="inline-flex items-center gap-3 rounded-full border border-navy-foreground/40 px-8 py-4 text-sm font-medium text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
             >
               Hablar con un asesor
             </a>
           </div>
+
         </div>
       </section>
 
@@ -137,18 +138,21 @@ function Home() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-px border border-border bg-border sm:grid-cols-2">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2">
           {SERVICIOS.map((servicio) => (
             <article
               key={servicio.title}
-              className="group bg-card p-9 transition-colors duration-500 hover:bg-ivory"
+              className="group rounded-3xl border border-border bg-card p-9 transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
             >
-              <servicio.icon className="h-6 w-6 text-gold" />
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-secondary">
+                <servicio.icon className="h-6 w-6 text-accent" />
+              </span>
               <h3 className="mt-6 font-display text-2xl text-navy">{servicio.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{servicio.text}</p>
             </article>
           ))}
         </div>
+
 
         <Link
           to="/servicios"
