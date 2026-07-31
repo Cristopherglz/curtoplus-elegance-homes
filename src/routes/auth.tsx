@@ -24,7 +24,6 @@ export const Route = createFileRoute("/auth")({
 function Auth() {
   const navigate = useNavigate();
   const { session } = useSession();
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -37,38 +36,27 @@ function Auth() {
     e.preventDefault();
     setBusy(true);
     try {
-      if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Bienvenido");
-        navigate({ to: "/admin", replace: true });
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin + "/admin" },
-        });
-        if (error) throw error;
-        toast.success("Cuenta creada. Revisá tu correo para confirmarla.");
-        setMode("login");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Bienvenido");
+      navigate({ to: "/admin", replace: true });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "No se pudo completar la operación");
+      toast.error(err instanceof Error ? err.message : "No se pudo iniciar sesión");
     } finally {
       setBusy(false);
     }
   };
 
   const fieldClass =
-    "mt-2 w-full border border-border bg-card px-4 py-3 text-sm text-navy outline-none transition-colors focus:border-accent";
+    "mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-navy outline-none transition-colors focus:border-accent";
 
   return (
     <section className="mx-auto flex min-h-[78vh] max-w-md flex-col justify-center px-5 py-20">
-      <div className="border border-border bg-card p-9 shadow-[var(--shadow-soft)]">
-        <ShieldCheck className="h-6 w-6 text-gold" />
-        <h1 className="mt-5 font-display text-3xl text-navy">
-          {mode === "login" ? "Acceso administrador" : "Crear cuenta de administrador"}
-        </h1>
+      <div className="rounded-3xl border border-border bg-card p-9 shadow-[var(--shadow-soft)]">
+        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-secondary">
+          <ShieldCheck className="h-6 w-6 text-accent" />
+        </span>
+        <h1 className="mt-5 font-display text-3xl text-navy">Acceso administrador</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           Área privada para la gestión de propiedades del sitio.
         </p>
@@ -104,20 +92,13 @@ function Auth() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-navy px-6 py-4 text-sm tracking-wide text-navy-foreground transition-colors hover:bg-navy-deep disabled:opacity-60"
+            className="w-full rounded-full bg-navy px-6 py-4 text-sm font-medium tracking-wide text-navy-foreground transition-colors hover:bg-navy-deep disabled:opacity-60"
           >
-            {busy ? "Procesando…" : mode === "login" ? "Ingresar" : "Crear cuenta"}
+            {busy ? "Procesando…" : "Ingresar"}
           </button>
         </form>
-
-        <button
-          type="button"
-          onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="mt-6 text-xs text-muted-foreground underline-offset-4 hover:text-navy hover:underline"
-        >
-          {mode === "login" ? "¿Primer ingreso? Crear cuenta" : "Ya tengo cuenta, ingresar"}
-        </button>
       </div>
     </section>
   );
 }
+
