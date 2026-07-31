@@ -17,7 +17,7 @@ function StatusTag({ status }: { status: string }) {
     reservado: "Reservado",
   };
   return (
-    <span className="absolute right-4 top-4 bg-navy px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-navy-foreground">
+    <span className="absolute right-4 top-4 rounded-full bg-navy px-3 py-1 text-[0.65rem] font-medium text-navy-foreground">
       {map[status] ?? status}
     </span>
   );
@@ -31,9 +31,9 @@ export function PropertyCard({ property }: { property: Property }) {
     <Link
       to="/propiedades/$id"
       params={{ id: property.id }}
-      className="lift group block overflow-hidden border border-border bg-card shadow-[var(--shadow-soft)]"
+      className="lift group block overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-[var(--shadow-soft)]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
         {cover ? (
           <img
             src={imageUrl(cover)}
@@ -46,11 +46,12 @@ export function PropertyCard({ property }: { property: Property }) {
             C&amp;D
           </div>
         )}
-        <span className="absolute left-4 top-4 bg-background/90 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-navy">
+        <span className="absolute left-4 top-4 rounded-full bg-background/95 px-3 py-1 text-[0.65rem] font-medium text-navy">
           {labelOf(OPERATIONS, property.operation)}
         </span>
         <StatusTag status={property.status} />
       </div>
+
 
       <div className="p-6">
         <p className="eyebrow text-[0.6rem] text-accent">

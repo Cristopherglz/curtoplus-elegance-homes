@@ -91,7 +91,7 @@ function Home() {
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               to="/propiedades"
-              className="group inline-flex items-center gap-3 bg-gold px-8 py-4 text-sm tracking-wide text-navy-deep transition-colors hover:bg-gold-soft"
+              className="group inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-medium text-navy-deep transition-colors hover:bg-gold-soft"
             >
               Ver propiedades
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -100,11 +100,12 @@ function Home() {
               href={waLink("Hola! Quisiera hacer una consulta inmobiliaria.")}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 border border-navy-foreground/40 px-8 py-4 text-sm tracking-wide text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
+              className="inline-flex items-center gap-3 rounded-full border border-navy-foreground/40 px-8 py-4 text-sm font-medium text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
             >
               Hablar con un asesor
             </a>
           </div>
+
         </div>
       </section>
 
@@ -137,18 +138,21 @@ function Home() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-px border border-border bg-border sm:grid-cols-2">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2">
           {SERVICIOS.map((servicio) => (
             <article
               key={servicio.title}
-              className="group bg-card p-9 transition-colors duration-500 hover:bg-ivory"
+              className="group rounded-3xl border border-border bg-card p-9 transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
             >
-              <servicio.icon className="h-6 w-6 text-gold" />
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-secondary">
+                <servicio.icon className="h-6 w-6 text-accent" />
+              </span>
               <h3 className="mt-6 font-display text-2xl text-navy">{servicio.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{servicio.text}</p>
             </article>
           ))}
         </div>
+
 
         <Link
           to="/servicios"
@@ -160,7 +164,7 @@ function Home() {
       </section>
 
       {/* Propiedades destacadas */}
-      <section className="surface-navy py-24">
+      <section className="surface-navy mx-auto max-w-[95rem] rounded-[2rem] py-24">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
             <div>
@@ -171,12 +175,13 @@ function Home() {
             </div>
             <Link
               to="/propiedades"
-              className="group inline-flex items-center gap-3 border border-navy-foreground/30 px-6 py-3 text-sm text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
+              className="group inline-flex items-center gap-3 rounded-full border border-navy-foreground/30 px-6 py-3 text-sm font-medium text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"
             >
               Ver catálogo completo
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
+
 
           {destacadas.length > 0 ? (
             <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -202,13 +207,14 @@ function Home() {
             width={1600}
             height={912}
             loading="lazy"
-            className="w-full object-cover"
+            className="w-full rounded-[2rem] object-cover"
           />
-          <div className="absolute -bottom-6 -right-2 bg-gold px-8 py-6 text-navy-deep sm:right-6">
+          <div className="absolute -bottom-6 -right-2 rounded-3xl bg-gold px-8 py-6 text-navy-deep sm:right-6">
             <p className="font-display text-4xl leading-none">20+</p>
             <p className="eyebrow mt-2 text-[0.55rem]">Años de experiencia</p>
           </div>
         </div>
+
         <div>
           <p className="eyebrow text-accent">Sobre nosotros</p>
           <h2 className="hairline mt-4 font-display text-4xl text-navy sm:text-5xl">
@@ -244,8 +250,8 @@ function Home() {
       </section>
 
       {/* CTA */}
-      <section className="border-y border-border bg-ivory">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:px-8">
+      <section className="mx-auto max-w-7xl px-5 pb-8 lg:px-8">
+        <div className="grid gap-10 rounded-[2rem] bg-ivory px-8 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:px-14">
           <div>
             <h2 className="font-display text-4xl text-navy sm:text-5xl">
               ¿Querés saber cuánto vale tu propiedad?
@@ -258,19 +264,20 @@ function Home() {
           <div className="flex flex-wrap gap-3">
             <Link
               to="/contacto"
-              className="inline-flex items-center gap-3 bg-navy px-8 py-4 text-sm tracking-wide text-navy-foreground transition-colors hover:bg-navy-deep"
+              className="inline-flex items-center gap-3 rounded-full bg-navy px-8 py-4 text-sm font-medium text-navy-foreground transition-colors hover:bg-navy-deep"
             >
               Solicitar tasación
             </Link>
             <a
               href={`tel:${SITE.phoneTel}`}
-              className="inline-flex items-center gap-3 border border-navy/25 px-8 py-4 text-sm tracking-wide text-navy transition-colors hover:bg-navy hover:text-navy-foreground"
+              className="inline-flex items-center gap-3 rounded-full border border-navy/25 px-8 py-4 text-sm font-medium text-navy transition-colors hover:bg-navy hover:text-navy-foreground"
             >
               {SITE.phoneDisplay}
             </a>
           </div>
         </div>
       </section>
+
     </>
   );
 }
