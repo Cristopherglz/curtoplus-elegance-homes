@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal } from "lucide-react";
@@ -34,6 +34,11 @@ function Propiedades() {
   const [operation, setOperation] = useState("todas");
   const [type, setType] = useState("todos");
   const [order, setOrder] = useState("recientes");
+  const [limit, setLimit] = useState(20);
+
+  useEffect(() => {
+    setLimit(20);
+  }, [q, operation, type, order]);
 
   const results = useMemo(() => {
     let list = [...(data ?? [])];
