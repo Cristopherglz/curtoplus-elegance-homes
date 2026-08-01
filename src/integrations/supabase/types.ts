@@ -26,10 +26,12 @@ export type Database = {
           description: string
           featured: boolean
           garage: boolean
+          garage_spaces: number | null
           id: string
           images: string[]
           is_published: boolean
           lot_m2: number | null
+          mortgage_eligible: boolean
           neighborhood: string | null
           operation: string
           property_type: string
@@ -53,10 +55,12 @@ export type Database = {
           description?: string
           featured?: boolean
           garage?: boolean
+          garage_spaces?: number | null
           id?: string
           images?: string[]
           is_published?: boolean
           lot_m2?: number | null
+          mortgage_eligible?: boolean
           neighborhood?: string | null
           operation?: string
           property_type?: string
@@ -80,10 +84,12 @@ export type Database = {
           description?: string
           featured?: boolean
           garage?: boolean
+          garage_spaces?: number | null
           id?: string
           images?: string[]
           is_published?: boolean
           lot_m2?: number | null
+          mortgage_eligible?: boolean
           neighborhood?: string | null
           operation?: string
           property_type?: string
@@ -95,6 +101,24 @@ export type Database = {
           status?: string
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          id: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          id: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          id?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }

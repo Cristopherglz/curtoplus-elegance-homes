@@ -26,6 +26,8 @@ const emptyState = {
   area_m2: "",
   lot_m2: "",
   garage: false,
+  garage_spaces: "",
+  mortgage_eligible: false,
   featured: false,
   is_published: true,
 };
@@ -108,6 +110,8 @@ export function PropertyForm({ property }: { property?: Property }) {
         area_m2: num(form.area_m2),
         lot_m2: num(form.lot_m2),
         garage: Boolean(form.garage),
+        garage_spaces: Boolean(form.garage) ? num(form.garage_spaces) : null,
+        mortgage_eligible: Boolean(form.mortgage_eligible),
         featured: Boolean(form.featured),
         is_published: Boolean(form.is_published),
         images,
@@ -205,6 +209,7 @@ export function PropertyForm({ property }: { property?: Property }) {
         <div className="flex flex-wrap gap-6 pt-2">
           {[
             { key: "garage", label: "Cochera" },
+            { key: "mortgage_eligible", label: "Apto crédito hipotecario" },
             { key: "featured", label: "Destacada" },
             { key: "is_published", label: "Publicada en el sitio" },
           ].map((c) => (
@@ -219,6 +224,20 @@ export function PropertyForm({ property }: { property?: Property }) {
             </label>
           ))}
         </div>
+
+        {Boolean(form.garage) && (
+          <div className="sm:max-w-xs">
+            <label className={labelCls} htmlFor="garage_spaces">Cochera para (autos)</label>
+            <input
+              id="garage_spaces"
+              type="number"
+              min={1}
+              max={50}
+              {...text("garage_spaces")}
+              className={field}
+            />
+          </div>
+        )}
       </div>
 
       <aside className="space-y-6 lg:sticky lg:top-28 lg:h-fit">

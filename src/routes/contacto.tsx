@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { SITE, waLink } from "@/lib/site";
+import { useHours } from "@/hooks/use-hours";
 
 export const Route = createFileRoute("/contacto")({
   head: () => ({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/contacto")({
 });
 
 function Contacto() {
+  const hours = useHours();
   const [form, setForm] = useState({ nombre: "", telefono: "", motivo: "Tasación", mensaje: "" });
 
   const set = (key: keyof typeof form) => (e: { target: { value: string } }) =>
@@ -84,7 +86,7 @@ ${form.mensaje}`;
             <li className="flex gap-4">
               <Clock className="mt-1 h-5 w-5 shrink-0 text-gold" />
               <div className="space-y-1">
-                {SITE.hours.map((h) => (
+                {hours.map((h) => (
                   <p key={h.day} className="text-sm text-muted-foreground">
                     <span className="text-navy">{h.day}:</span> {h.time}
                   </p>

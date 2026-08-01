@@ -20,6 +20,8 @@ export type Property = {
   area_m2: number | null;
   lot_m2: number | null;
   garage: boolean;
+  garage_spaces: number | null;
+  mortgage_eligible: boolean;
   images: string[];
   featured: boolean;
   is_published: boolean;
@@ -35,7 +37,11 @@ export const OPERATIONS = [
 export const PROPERTY_TYPES = [
   { value: "casa", label: "Casa" },
   { value: "departamento", label: "Departamento" },
+  { value: "monoambiente", label: "Monoambiente" },
   { value: "terreno", label: "Terreno" },
+  { value: "loteo", label: "Loteo" },
+  { value: "chacra", label: "Chacra" },
+  { value: "hectareas", label: "Hectáreas" },
   { value: "local", label: "Local comercial" },
   { value: "oficina", label: "Oficina" },
   { value: "galpon", label: "Galpón" },
@@ -58,6 +64,16 @@ export function imageUrl(path: string) {
   if (!path) return "";
   if (path.startsWith("http")) return path;
   return `/api/public/imagen/${path}`;
+}
+
+export function fullAddress(property: Property) {
+  return [property.address, property.neighborhood, property.city, property.province]
+    .filter(Boolean)
+    .join(", ");
+}
+
+export function mapsUrl(property: Property) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress(property))}`;
 }
 
 const money = (value: number, currency: "USD" | "ARS") =>

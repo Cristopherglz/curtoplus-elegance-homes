@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal } from "lucide-react";
@@ -34,6 +34,11 @@ function Propiedades() {
   const [operation, setOperation] = useState("todas");
   const [type, setType] = useState("todos");
   const [order, setOrder] = useState("recientes");
+  const [limit, setLimit] = useState(20);
+
+  useEffect(() => {
+    setLimit(20);
+  }, [q, operation, type, order]);
 
   const results = useMemo(() => {
     let list = [...(data ?? [])];
@@ -132,11 +137,24 @@ function Propiedades() {
         </p>
 
         {results.length > 0 ? (
-          <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {results.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          <>
+            <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {results.slice(0, limit).map((property) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+            {results.length > limit && (
+              <div className="mt-12 text-center">
+                <button
+                  type="button"
+                  onClick={() => setLimit((n) => n + 20)}
+                  className="rounded-full bg-navy px-10 py-4 text-sm tracking-wide text-navy-foreground transition-colors hover:bg-navy-deep"
+                >
+                  Ver más propiedades
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           !isLoading && (
             <div className="mt-16 border border-dashed border-border p-14 text-center">

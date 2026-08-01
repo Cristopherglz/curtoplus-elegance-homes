@@ -16,6 +16,7 @@ import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as ServiciosRouteImport } from './routes/servicios'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminHorariosRouteImport } from './routes/admin.horarios'
 import { Route as AdminNuevaRouteImport } from './routes/admin.nueva'
 import { Route as PropiedadesIndexRouteImport } from './routes/propiedades.index'
 import { Route as PropiedadesIdRouteImport } from './routes/propiedades.$id'
@@ -57,6 +58,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHorariosRoute = AdminHorariosRouteImport.update({
+  id: '/horarios',
+  path: '/horarios',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminNuevaRoute = AdminNuevaRouteImport.update({
   id: '/nueva',
   path: '/nueva',
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/horarios': typeof AdminHorariosRoute
   '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/horarios': typeof AdminHorariosRoute
   '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin': typeof AdminIndexRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/nosotros': typeof NosotrosRoute
   '/servicios': typeof ServiciosRoute
+  '/admin/horarios': typeof AdminHorariosRoute
   '/admin/nueva': typeof AdminNuevaRoute
   '/propiedades/$id': typeof PropiedadesIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/horarios'
     | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin/'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/horarios'
     | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/nosotros'
     | '/servicios'
+    | '/admin/horarios'
     | '/admin/nueva'
     | '/propiedades/$id'
     | '/admin/'
@@ -232,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/horarios': {
+      id: '/admin/horarios'
+      path: '/horarios'
+      fullPath: '/admin/horarios'
+      preLoaderRoute: typeof AdminHorariosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/nueva': {
       id: '/admin/nueva'
       path: '/nueva'
@@ -271,12 +290,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminHorariosRoute: typeof AdminHorariosRoute
   AdminNuevaRoute: typeof AdminNuevaRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminEditarIdRoute: typeof AdminEditarIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminHorariosRoute: AdminHorariosRoute,
   AdminNuevaRoute: AdminNuevaRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminEditarIdRoute: AdminEditarIdRoute,

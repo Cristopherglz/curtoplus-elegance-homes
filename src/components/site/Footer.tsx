@@ -64,7 +64,16 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-navy-foreground/50 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <p>© {new Date().getFullYear()} Curto &amp; De Oliveira. Todos los derechos reservados.</p>
-          <p>Posadas · Misiones · Argentina</p>
+          <p>
+            <a
+              href="https://komunacreativa.com"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-gold"
+            >
+              Sitio web desarrollado por KOMUNA Creativa ©
+            </a>
+          </p>
         </div>
       </div>
     </footer>
