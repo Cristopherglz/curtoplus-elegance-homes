@@ -26,6 +26,8 @@ const emptyState = {
   area_m2: "",
   lot_m2: "",
   garage: false,
+  garage_spaces: "",
+  mortgage_eligible: false,
   featured: false,
   is_published: true,
 };
@@ -108,6 +110,8 @@ export function PropertyForm({ property }: { property?: Property }) {
         area_m2: num(form.area_m2),
         lot_m2: num(form.lot_m2),
         garage: Boolean(form.garage),
+        garage_spaces: Boolean(form.garage) ? num(form.garage_spaces) : null,
+        mortgage_eligible: Boolean(form.mortgage_eligible),
         featured: Boolean(form.featured),
         is_published: Boolean(form.is_published),
         images,
