@@ -143,6 +143,18 @@ function AdminList() {
           </div>
         </article>
       ))}
+
+      {properties.length > limit && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setLimit((n) => n + 20)}
+            className="rounded-full border border-navy px-8 py-3 text-sm text-navy transition-colors hover:bg-ivory"
+          >
+            Ver más ({properties.length - limit} restantes)
+          </button>
+        </div>
+      )}
     </div>
   );
 }
