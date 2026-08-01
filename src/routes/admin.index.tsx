@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
@@ -18,6 +19,7 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminList() {
   const qc = useQueryClient();
+  const [limit, setLimit] = useState(20);
   const { data, isLoading } = useQuery({ queryKey: ["properties", "all"], queryFn: fetchAllProperties });
 
   const refresh = () => {
@@ -70,7 +72,7 @@ function AdminList() {
 
   return (
     <div className="mt-10 space-y-4">
-      {properties.map((p) => (
+      {properties.slice(0, limit).map((p) => (
         <article
           key={p.id}
           className="grid gap-5 border border-border bg-card p-4 sm:grid-cols-[8rem_minmax(0,1fr)_auto] sm:items-center"
