@@ -24,6 +24,8 @@ export type Database = {
           created_at: string
           created_by: string | null
           description: string
+          expenses_ars: number | null
+          expenses_usd: number | null
           featured: boolean
           garage: boolean
           garage_spaces: number | null
@@ -53,6 +55,8 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           description?: string
+          expenses_ars?: number | null
+          expenses_usd?: number | null
           featured?: boolean
           garage?: boolean
           garage_spaces?: number | null
@@ -82,6 +86,8 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           description?: string
+          expenses_ars?: number | null
+          expenses_usd?: number | null
           featured?: boolean
           garage?: boolean
           garage_spaces?: number | null
