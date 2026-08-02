@@ -50,6 +50,11 @@ export function PropertyCard({ property }: { property: Property }) {
           {labelOf(OPERATIONS, property.operation)}
         </span>
         <StatusTag status={property.status} />
+        {property.mortgage_eligible && (
+          <span className="absolute bottom-4 left-4 rounded-full bg-accent px-3 py-1 text-[0.65rem] font-medium text-accent-foreground">
+            Apto crédito hipotecario
+          </span>
+        )}
       </div>
 
 
