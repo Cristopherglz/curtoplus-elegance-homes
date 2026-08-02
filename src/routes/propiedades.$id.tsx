@@ -130,7 +130,7 @@ function Detalle() {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   return (
-    <article className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
+    <article className="mx-auto w-full max-w-7xl overflow-x-hidden px-4 py-8 sm:px-5 sm:py-12 lg:px-8">
       <Link
         to="/propiedades"
         className="inline-flex items-center gap-2 text-xs tracking-wide text-muted-foreground transition-colors hover:text-navy"
@@ -139,7 +139,7 @@ function Detalle() {
       </Link>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-        <div>
+        <div className="min-w-0">
           <div
             className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-secondary"
             onTouchStart={(e) => {
@@ -229,7 +229,7 @@ function Detalle() {
 
           <div className="mt-12">
             <p className="eyebrow text-accent">{labelOf(PROPERTY_TYPES, property.property_type)}</p>
-            <h1 className="mt-3 font-display text-4xl leading-tight text-navy sm:text-5xl">
+            <h1 className="mt-3 font-display text-3xl leading-tight text-navy sm:text-4xl lg:text-5xl">
               {property.title}
             </h1>
 
@@ -245,7 +245,7 @@ function Detalle() {
             <p className="mt-3 text-sm text-muted-foreground">{fullAddress(property)}</p>
 
             {specs.length > 0 && (
-              <div className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3">
                 {specs.map((spec) => (
                   <div key={spec.label} className="flex items-center gap-3 bg-card px-5 py-4">
                     <spec.icon className="h-4 w-4 shrink-0 text-gold" />
@@ -267,7 +267,7 @@ function Detalle() {
         </div>
 
         <aside className="lg:sticky lg:top-28 lg:h-fit">
-          <div className="rounded-[1.5rem] border border-border bg-card p-8 shadow-[var(--shadow-soft)]">
+          <div className="rounded-[1.5rem] border border-border bg-card p-6 sm:p-8 shadow-[var(--shadow-soft)]">
             {priceLines(property).map((line) => (
               <div key={line.label} className="mb-5 last:mb-0">
                 <p className="eyebrow text-[0.55rem] text-muted-foreground">{line.label}</p>
