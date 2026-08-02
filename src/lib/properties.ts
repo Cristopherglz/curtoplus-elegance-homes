@@ -11,6 +11,8 @@ export type Property = {
   sale_price_ars: number | null;
   rent_price_usd: number | null;
   rent_price_ars: number | null;
+  expenses_ars: number | null;
+  expenses_usd: number | null;
   address: string | null;
   neighborhood: string | null;
   city: string;
@@ -99,6 +101,11 @@ export function priceLines(property: Property) {
       value: rent.join("  ·  "),
     });
   }
+  const exp: string[] = [];
+  if (property.expenses_usd) exp.push(money(property.expenses_usd, "USD"));
+  if (property.expenses_ars) exp.push(money(property.expenses_ars, "ARS"));
+  if (exp.length) lines.push({ label: "Expensas", value: exp.join("  ·  ") });
+
   if (!lines.length) lines.push({ label: "Precio", value: "Consultar" });
   return lines;
 }

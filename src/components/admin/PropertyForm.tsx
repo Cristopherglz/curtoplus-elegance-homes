@@ -17,6 +17,8 @@ const emptyState = {
   sale_price_ars: "",
   rent_price_usd: "",
   rent_price_ars: "",
+  expenses_ars: "",
+  expenses_usd: "",
   address: "",
   neighborhood: "",
   city: "Posadas",
@@ -101,6 +103,8 @@ export function PropertyForm({ property }: { property?: Property }) {
         sale_price_ars: num(form.sale_price_ars),
         rent_price_usd: num(form.rent_price_usd),
         rent_price_ars: num(form.rent_price_ars),
+        expenses_ars: num(form.expenses_ars),
+        expenses_usd: num(form.expenses_usd),
         address: String(form.address ?? "").trim() || null,
         neighborhood: String(form.neighborhood ?? "").trim() || null,
         city: String(form.city ?? "Posadas"),
@@ -170,6 +174,8 @@ export function PropertyForm({ property }: { property?: Property }) {
             { key: "sale_price_ars", label: "Precio venta (ARS)" },
             { key: "rent_price_usd", label: "Precio alquiler (USD)" },
             { key: "rent_price_ars", label: "Precio alquiler (ARS)" },
+            { key: "expenses_ars", label: "Expensas (ARS)" },
+            { key: "expenses_usd", label: "Expensas (USD)" },
           ].map((f) => (
             <div key={f.key}>
               <label className={labelCls} htmlFor={f.key}>{f.label}</label>

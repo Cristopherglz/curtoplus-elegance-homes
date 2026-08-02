@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { Clock, LogOut, Plus } from "lucide-react";
+import { Clock, List, LogOut, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 
@@ -76,6 +76,13 @@ function AdminLayout() {
           </h1>
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          <Link
+            to="/admin"
+            className="inline-flex items-center gap-2 border border-border px-4 py-3 text-xs text-navy transition-colors hover:bg-ivory sm:text-sm"
+          >
+            <List className="h-4 w-4" />
+            <span className="hidden sm:inline">Propiedades</span>
+          </Link>
           <Link
             to="/admin/horarios"
             className="inline-flex items-center gap-2 border border-border px-4 py-3 text-xs text-navy transition-colors hover:bg-ivory sm:text-sm"
