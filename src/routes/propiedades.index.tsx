@@ -42,7 +42,8 @@ function Propiedades() {
 
   const results = useMemo(() => {
     let list = [...(data ?? [])];
-    if (operation !== "todas") list = list.filter((p) => p.operation === operation);
+    if (operation === "hipotecario") list = list.filter((p) => p.mortgage_eligible);
+    else if (operation !== "todas") list = list.filter((p) => p.operation === operation);
     if (type !== "todos") list = list.filter((p) => p.property_type === type);
     if (q.trim()) {
       const term = q.toLowerCase();
@@ -102,6 +103,7 @@ function Propiedades() {
                   {o.label}
                 </option>
               ))}
+              <option value="hipotecario">Apto crédito hipotecario</option>
             </select>
             <select
               value={type}
