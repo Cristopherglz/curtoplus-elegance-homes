@@ -1,0 +1,1 @@
+ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS expenses_ars numeric, ADD COLUMN IF NOT EXISTS expenses_usd numeric;
