@@ -64,7 +64,7 @@ export function labelOf(list: readonly { value: string; label: string }[], value
 
 export function imageUrl(path: string) {
   if (!path) return "";
-  if (path.startsWith("http")) return path;
+  if (path.startsWith("http") || path.startsWith("/")) return path;
   return `/api/public/imagen/${path}`;
 }
 
