@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { imageUrl, OPERATIONS, PROPERTY_TYPES, STATUSES, type Property } from "@/lib/properties";
 
@@ -258,21 +258,41 @@ export function PropertyForm({ property }: { property?: Property }) {
           />
           {uploading && <p className="mt-3 text-xs text-muted-foreground">Subiendo…</p>}
           {images.length > 0 && (
-            <div className="mt-5 grid grid-cols-3 gap-2">
-              {images.map((img) => (
-                <div key={img} className="relative aspect-square overflow-hidden">
-                  <img src={imageUrl(img)} alt="" className="h-full w-full object-cover" />
-                  <button
-                    type="button"
-                    aria-label="Quitar imagen"
-                    onClick={() => setImages((prev) => prev.filter((i) => i !== img))}
-                    className="absolute right-1 top-1 bg-navy/85 p-1 text-navy-foreground"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ))}
-            </div>
+            <>
+              <p className="mt-4 text-xs text-muted-foreground">
+                La imagen marcada como principal es la que aparece en la tarjeta de la propiedad.
+              </p>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {images.map((img, index) => (
+                  <div key={img} className="relative aspect-square overflow-hidden rounded-xl">
+                    <img src={imageUrl(img)} alt="" className="h-full w-full object-cover" />
+                    <button
+                      type="button"
+                      aria-label="Quitar imagen"
+                      onClick={() => setImages((prev) => prev.filter((i) => i !== img))}
+                      className="absolute right-1 top-1 rounded-full bg-navy/85 p-1 text-navy-foreground"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                    {index === 0 ? (
+                      <span className="absolute inset-x-1 bottom-1 flex items-center justify-center gap-1 rounded-full bg-navy px-2 py-1 text-[0.6rem] text-navy-foreground">
+                        <Star className="h-3 w-3 fill-current" /> Principal
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setImages((prev) => [img, ...prev.filter((i) => i !== img)])
+                        }
+                        className="absolute inset-x-1 bottom-1 flex items-center justify-center gap-1 rounded-full bg-card/90 px-2 py-1 text-[0.6rem] text-navy transition-colors hover:bg-card"
+                      >
+                        <Star className="h-3 w-3" /> Principal
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
