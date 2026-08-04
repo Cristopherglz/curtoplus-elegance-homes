@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createClient } from "@supabase/supabase-js";
 
+// Legacy route: property images are now served directly from Supabase Storage's
+// public URL. We keep this endpoint as a permanent redirect so old links keep
+// working, and it no longer needs any service-role key.
 export const Route = createFileRoute("/api/public/imagen/$")({
   server: {
     handlers: {
@@ -8,33 +10,20 @@ export const Route = createFileRoute("/api/public/imagen/$")({
         const path = (params as { _splat?: string })._splat;
         if (!path) return new Response("Not found", { status: 404 });
 
-        // VITE_* values are inlined at build time, so this works on any host
-        // (Lovable, Vercel, etc.) even when server env vars are not configured.
-        const url = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-        const key =
-          import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
+        const base =
+          import.meta.env.VITE_SUPABASE_URL ||
+          process.env['SUPABASE_URL'] ||
+          "https://qgcglqrfvnhpuezecubu.supabase.co";
 
-        if (!url || !key) return new Response("Not configured", { status: 500 });
+        const target = `${base.replace(/\/$/, "")}/storage/v1/object/public/property-images/${path
+          .split("/")
+          .map(encodeURIComponent)
+          .join("/")}`;
 
-        const supabase = createClient(url, key, {
-          auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-          global: {
-            fetch: (input, init) => {
-              const headers = new Headers(init?.headers);
-              if (headers.get("Authorization") === `Bearer ${key}`) headers.delete("Authorization");
-              headers.set("apikey", key);
-              return fetch(input, { ...init, headers });
-            },
-          },
-        });
-
-        const { data, error } = await supabase.storage.from("property-images").download(path);
-
-        if (error || !data) return new Response("Not found", { status: 404 });
-
-        return new Response(await data.arrayBuffer(), {
+        return new Response(null, {
+          status: 301,
           headers: {
-            "content-type": data.type || "image/jpeg",
+            location: target,
             "cache-control": "public, max-age=31536000, immutable",
           },
         });
