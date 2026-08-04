@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { assetUrl } from "@/lib/assets";
 
 export type Property = {
   id: string;
@@ -64,7 +65,7 @@ export function labelOf(list: readonly { value: string; label: string }[], value
 
 export function imageUrl(path: string) {
   if (!path) return "";
-  if (path.startsWith("http") || path.startsWith("/")) return path;
+  if (path.startsWith("http") || path.startsWith("/")) return assetUrl(path);
   return `/api/public/imagen/${path}`;
 }
 
