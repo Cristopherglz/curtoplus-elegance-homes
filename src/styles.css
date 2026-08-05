@@ -213,3 +213,21 @@
     box-shadow: var(--shadow-lift);
   }
 }
+
+@keyframes key-swing-left {
+  0%, 100% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes key-swing-right {
+  0%, 100% {
+    transform: rotate(22deg);
+  }
+  50% {
+    transform: rotate(-18deg);
+  }
+}
