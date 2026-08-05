@@ -81,7 +81,7 @@ export function PropertyCard({ property }: { property: Property }) {
           ))}
         </div>
 
-        {(property.bedrooms || property.bathrooms || property.area_m2) && (
+        {(property.bedrooms || property.bathrooms || property.lot_m2 || property.area_m2) && (
           <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
             {!!property.bedrooms && (
               <span className="flex items-center gap-1.5">
