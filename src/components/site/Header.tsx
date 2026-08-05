@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Phone, ShieldCheck } from "lucide-react";
+import { Menu, X, Phone, User } from "lucide-react";
 import { Logo } from "./Logo";
 import { SITE } from "@/lib/site";
 import { useSession } from "@/hooks/use-session";
@@ -15,7 +15,12 @@ const NAV = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { session } = useSession();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
@@ -45,14 +50,14 @@ export function Header() {
             {SITE.phoneDisplay}
           </a>
 
-          {session && (
+          {mounted && session && (
             <Link
               to="/admin"
               aria-label="Panel de administración"
               title="Panel de administración"
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-accent/50 hover:text-accent"
             >
-              <ShieldCheck className="h-4.5 w-4.5" />
+              <User className="h-4.5 w-4.5" />
             </Link>
           )}
 
