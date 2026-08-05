@@ -134,15 +134,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-      <WhatsAppFab />
-      <Toaster position="top-right" richColors />
+      <Suspense fallback={<KeyLoader />}>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+        <WhatsAppFab />
+        <Toaster position="top-right" richColors />
+      </Suspense>
     </QueryClientProvider>
   );
 }
