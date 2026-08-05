@@ -45,14 +45,16 @@ export function Header() {
             {SITE.phoneDisplay}
           </a>
 
-          <Link
-            to={session ? "/admin" : "/auth"}
-            aria-label="Acceso administrador"
-            title="Acceso administrador"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-accent/50 hover:text-accent"
-          >
-            <ShieldCheck className="h-4.5 w-4.5" />
-          </Link>
+          {session && (
+            <Link
+              to="/admin"
+              aria-label="Panel de administración"
+              title="Panel de administración"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-accent/50 hover:text-accent"
+            >
+              <ShieldCheck className="h-4.5 w-4.5" />
+            </Link>
+          )}
 
           <button
             type="button"

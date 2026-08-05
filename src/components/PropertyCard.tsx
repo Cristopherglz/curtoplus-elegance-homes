@@ -81,7 +81,7 @@ export function PropertyCard({ property }: { property: Property }) {
           ))}
         </div>
 
-        {(property.bedrooms || property.bathrooms || property.area_m2) && (
+        {(property.bedrooms || property.bathrooms || property.lot_m2 || property.area_m2) && (
           <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
             {!!property.bedrooms && (
               <span className="flex items-center gap-1.5">
@@ -93,9 +93,9 @@ export function PropertyCard({ property }: { property: Property }) {
                 <Bath className="h-3.5 w-3.5" /> {property.bathrooms} baños
               </span>
             )}
-            {!!property.area_m2 && (
+            {!!(property.lot_m2 ?? property.area_m2) && (
               <span className="flex items-center gap-1.5">
-                <Maximize className="h-3.5 w-3.5" /> {property.area_m2} m²
+                <Maximize className="h-3.5 w-3.5" /> {property.lot_m2 ?? property.area_m2} m² totales
               </span>
             )}
           </div>
