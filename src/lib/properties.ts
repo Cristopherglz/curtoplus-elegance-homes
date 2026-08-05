@@ -63,15 +63,12 @@ export function labelOf(list: readonly { value: string; label: string }[], value
   return list.find((item) => item.value === value)?.label ?? value;
 }
 
-const SUPABASE_URL =
-  import.meta.env.VITE_SUPABASE_URL || "https://qgcglqrfvnhpuezecubu.supabase.co";
-export const STORAGE_PUBLIC_BASE = `${SUPABASE_URL.replace(/\/$/, "")}/storage/v1/object/public/property-images`;
-
 export function imageUrl(path: string) {
   if (!path) return "";
   if (path.startsWith("http") || path.startsWith("/")) return assetUrl(path);
-  return `${STORAGE_PUBLIC_BASE}/${path.split("/").map(encodeURIComponent).join("/")}`;
+  return `/api/public/imagen/${path.split("/").map(encodeURIComponent).join("/")}`;
 }
+
 
 export function fullAddress(property: Property) {
   return [property.address, property.neighborhood, property.city, property.province]
