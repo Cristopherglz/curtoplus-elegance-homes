@@ -93,9 +93,9 @@ export function PropertyCard({ property }: { property: Property }) {
                 <Bath className="h-3.5 w-3.5" /> {property.bathrooms} baños
               </span>
             )}
-            {!!property.area_m2 && (
+            {!!(property.lot_m2 ?? property.area_m2) && (
               <span className="flex items-center gap-1.5">
-                <Maximize className="h-3.5 w-3.5" /> {property.area_m2} m²
+                <Maximize className="h-3.5 w-3.5" /> {property.lot_m2 ?? property.area_m2} m² totales
               </span>
             )}
           </div>
