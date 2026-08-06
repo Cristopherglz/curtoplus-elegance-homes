@@ -36,11 +36,15 @@ export function PropertyCard({ property }: { property: Property }) {
       <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
         {cover ? (
           <img
-            src={imageUrl(cover)}
+            src={imageUrl(cover, 600)}
+            srcSet={`${imageUrl(cover, 400)} 400w, ${imageUrl(cover, 600)} 600w, ${imageUrl(cover, 900)} 900w`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={property.title}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
+
         ) : (
           <div className="grid h-full place-items-center font-display text-2xl text-muted-foreground">
             C&amp;D
