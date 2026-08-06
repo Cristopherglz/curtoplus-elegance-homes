@@ -265,7 +265,7 @@ export function PropertyForm({ property }: { property?: Property }) {
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {images.map((img, index) => (
                   <div key={img} className="relative aspect-square overflow-hidden rounded-xl">
-                    <img src={imageUrl(img)} alt="" className="h-full w-full object-cover" />
+                    <img src={imageUrl(img, 240)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                     <button
                       type="button"
                       aria-label="Quitar imagen"

@@ -79,13 +79,20 @@ function AdminList() {
         >
           <div className="aspect-[4/3] w-full overflow-hidden bg-secondary sm:w-32">
             {p.images?.[0] ? (
-              <img src={imageUrl(p.images[0])} alt={p.title} className="h-full w-full object-cover" />
+              <img
+                src={imageUrl(p.images[0], 300)}
+                alt={p.title}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
             ) : (
               <div className="grid h-full place-items-center font-display text-xl text-muted-foreground">
                 C&amp;D
               </div>
             )}
           </div>
+
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
