@@ -63,11 +63,13 @@ export function labelOf(list: readonly { value: string; label: string }[], value
   return list.find((item) => item.value === value)?.label ?? value;
 }
 
-export function imageUrl(path: string) {
+export function imageUrl(path: string, width?: number) {
   if (!path) return "";
   if (path.startsWith("http") || path.startsWith("/")) return assetUrl(path);
-  return `/api/public/imagen/${path.split("/").map(encodeURIComponent).join("/")}`;
+  const encoded = path.split("/").map(encodeURIComponent).join("/");
+  return `/api/public/imagen/${encoded}${width ? `?w=${width}` : ""}`;
 }
+
 
 
 export function fullAddress(property: Property) {
