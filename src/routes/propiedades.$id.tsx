@@ -160,10 +160,15 @@ function Detalle() {
                 className="h-full w-full cursor-zoom-in"
               >
                 <img
-                  src={imageUrl(images[active])}
+                  src={imageUrl(images[active], 1200)}
+                  srcSet={`${imageUrl(images[active], 800)} 800w, ${imageUrl(images[active], 1200)} 1200w, ${imageUrl(images[active], 1600)} 1600w`}
+                  sizes="(max-width: 1024px) 100vw, 60vw"
                   alt={property.title}
+                  fetchPriority="high"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
+
               </button>
             ) : (
               <div className="grid h-full place-items-center font-display text-4xl text-muted-foreground">
@@ -217,11 +222,13 @@ function Detalle() {
                   }`}
                 >
                   <img
-                    src={imageUrl(img)}
+                    src={imageUrl(img, 240)}
                     alt={`${property.title} — foto ${i + 1}`}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
+
                 </button>
               ))}
             </div>
@@ -378,11 +385,13 @@ function Detalle() {
             </>
           )}
           <img
-            src={imageUrl(images[active])}
+            src={imageUrl(images[active], 1600)}
             alt={`${property.title} — foto ${active + 1}`}
             onClick={(e) => e.stopPropagation()}
+            decoding="async"
             className="max-h-[88vh] max-w-full rounded-xl object-contain"
           />
+
           <span className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-background/90 px-4 py-1 text-xs text-navy">
             {active + 1} / {images.length}
           </span>

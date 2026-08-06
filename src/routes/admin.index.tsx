@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
+import { Copy, Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -11,7 +11,9 @@ import {
   OPERATIONS,
   priceLines,
   STATUSES,
+  type Property,
 } from "@/lib/properties";
+
 
 export const Route = createFileRoute("/admin/")({
   component: AdminList,
@@ -19,12 +21,35 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminList() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(20);
   const { data, isLoading } = useQuery({ queryKey: ["properties", "all"], queryFn: fetchAllProperties });
 
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["properties"] });
   };
+
+  const duplicate = useMutation({
+    mutationFn: async (p: Property) => {
+      const { id, created_at, ...rest } = p;
+      void id;
+      void created_at;
+      const { data: created, error } = await supabase
+        .from("properties")
+        .insert({ ...rest, title: `${p.title} (copia)`, featured: false, is_published: false })
+        .select("id")
+        .single();
+      if (error) throw error;
+      return created.id as string;
+    },
+    onSuccess: (newId) => {
+      toast.success("Propiedad duplicada como borrador");
+      refresh();
+      navigate({ to: "/admin/editar/$id", params: { id: newId } });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
 
   const togglePublish = useMutation({
     mutationFn: async ({ id, value }: { id: string; value: boolean }) => {
@@ -79,13 +104,20 @@ function AdminList() {
         >
           <div className="aspect-[4/3] w-full overflow-hidden bg-secondary sm:w-32">
             {p.images?.[0] ? (
-              <img src={imageUrl(p.images[0])} alt={p.title} className="h-full w-full object-cover" />
+              <img
+                src={imageUrl(p.images[0], 300)}
+                alt={p.title}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
             ) : (
               <div className="grid h-full place-items-center font-display text-xl text-muted-foreground">
                 C&amp;D
               </div>
             )}
           </div>
+
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -121,6 +153,16 @@ function AdminList() {
             >
               {p.is_published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
             </button>
+            <button
+              onClick={() => duplicate.mutate(p)}
+              disabled={duplicate.isPending}
+              aria-label="Duplicar"
+              title="Duplicar propiedad"
+              className="border border-border p-3 text-navy transition-colors hover:bg-ivory disabled:opacity-50"
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+
             <Link
               to="/admin/editar/$id"
               params={{ id: p.id }}
