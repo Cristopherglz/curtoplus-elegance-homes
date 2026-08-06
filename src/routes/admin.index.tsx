@@ -21,12 +21,35 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminList() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(20);
   const { data, isLoading } = useQuery({ queryKey: ["properties", "all"], queryFn: fetchAllProperties });
 
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["properties"] });
   };
+
+  const duplicate = useMutation({
+    mutationFn: async (p: Property) => {
+      const { id, created_at, ...rest } = p;
+      void id;
+      void created_at;
+      const { data: created, error } = await supabase
+        .from("properties")
+        .insert({ ...rest, title: `${p.title} (copia)`, featured: false, is_published: false })
+        .select("id")
+        .single();
+      if (error) throw error;
+      return created.id as string;
+    },
+    onSuccess: (newId) => {
+      toast.success("Propiedad duplicada como borrador");
+      refresh();
+      navigate({ to: "/admin/editar/$id", params: { id: newId } });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
 
   const togglePublish = useMutation({
     mutationFn: async ({ id, value }: { id: string; value: boolean }) => {
