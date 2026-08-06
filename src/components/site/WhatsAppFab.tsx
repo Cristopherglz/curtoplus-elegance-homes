@@ -8,9 +8,9 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noreferrer"
       aria-label="Escribinos por WhatsApp"
-      className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-navy text-navy-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-105"
+      className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[var(--shadow-lift)] transition-transform hover:scale-105"
     >
-      <MessageCircle className="h-6 w-6" />
+      <MessageCircle className="h-7 w-7 fill-white" strokeWidth={2} />
     </a>
   );
 }
