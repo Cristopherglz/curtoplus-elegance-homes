@@ -153,6 +153,16 @@ function AdminList() {
             >
               {p.is_published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
             </button>
+            <button
+              onClick={() => duplicate.mutate(p)}
+              disabled={duplicate.isPending}
+              aria-label="Duplicar"
+              title="Duplicar propiedad"
+              className="border border-border p-3 text-navy transition-colors hover:bg-ivory disabled:opacity-50"
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+
             <Link
               to="/admin/editar/$id"
               params={{ id: p.id }}
