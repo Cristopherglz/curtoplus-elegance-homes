@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
+import { Copy, Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -11,7 +11,9 @@ import {
   OPERATIONS,
   priceLines,
   STATUSES,
+  type Property,
 } from "@/lib/properties";
+
 
 export const Route = createFileRoute("/admin/")({
   component: AdminList,
