@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Star, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { imageUrl, OPERATIONS, PROPERTY_TYPES, STATUSES, type Property } from "@/lib/properties";
 
@@ -58,8 +58,19 @@ export function PropertyForm({ property }: { property?: Property }) {
   const [images, setImages] = useState<string[]>(property?.images ?? []);
   const [busy, setBusy] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+
+  const move = (from: number, to: number) =>
+    setImages((prev) => {
+      if (to < 0 || to >= prev.length || from === to) return prev;
+      const next = [...prev];
+      const [item] = next.splice(from, 1);
+      next.splice(to, 0, item);
+      return next;
+    });
 
   const set = (key: string, value: unknown) => setForm((prev) => ({ ...prev, [key]: value }));
+
   const text = (key: string) => ({
     value: String(form[key] ?? ""),
     onChange: (e: { target: { value: string } }) => set(key, e.target.value),
@@ -260,11 +271,26 @@ export function PropertyForm({ property }: { property?: Property }) {
           {images.length > 0 && (
             <>
               <p className="mt-4 text-xs text-muted-foreground">
-                La imagen marcada como principal es la que aparece en la tarjeta de la propiedad.
+                Arrastrá las fotos (o usá las flechas) para ordenarlas. La primera es la principal
+                y aparece en la tarjeta de la propiedad.
               </p>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {images.map((img, index) => (
-                  <div key={img} className="relative aspect-square overflow-hidden rounded-xl">
+                  <div
+                    key={img}
+                    draggable
+                    onDragStart={() => setDragIndex(index)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (dragIndex !== null) move(dragIndex, index);
+                      setDragIndex(null);
+                    }}
+                    onDragEnd={() => setDragIndex(null)}
+                    className={`relative aspect-square cursor-move overflow-hidden rounded-xl ${
+                      dragIndex === index ? "opacity-50" : ""
+                    }`}
+                  >
                     <img src={imageUrl(img, 240)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                     <button
                       type="button"
@@ -274,6 +300,26 @@ export function PropertyForm({ property }: { property?: Property }) {
                     >
                       <X className="h-3 w-3" />
                     </button>
+                    <div className="absolute left-1 top-1 flex gap-1">
+                      <button
+                        type="button"
+                        aria-label="Mover a la izquierda"
+                        disabled={index === 0}
+                        onClick={() => move(index, index - 1)}
+                        className="rounded-full bg-card/90 p-1 text-navy disabled:opacity-40"
+                      >
+                        <ChevronLeft className="h-3 w-3" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Mover a la derecha"
+                        disabled={index === images.length - 1}
+                        onClick={() => move(index, index + 1)}
+                        className="rounded-full bg-card/90 p-1 text-navy disabled:opacity-40"
+                      >
+                        <ChevronRight className="h-3 w-3" />
+                      </button>
+                    </div>
                     {index === 0 ? (
                       <span className="absolute inset-x-1 bottom-1 flex items-center justify-center gap-1 rounded-full bg-navy px-2 py-1 text-[0.6rem] text-navy-foreground">
                         <Star className="h-3 w-3 fill-current" /> Principal
@@ -281,9 +327,7 @@ export function PropertyForm({ property }: { property?: Property }) {
                     ) : (
                       <button
                         type="button"
-                        onClick={() =>
-                          setImages((prev) => [img, ...prev.filter((i) => i !== img)])
-                        }
+                        onClick={() => move(index, 0)}
                         className="absolute inset-x-1 bottom-1 flex items-center justify-center gap-1 rounded-full bg-card/90 px-2 py-1 text-[0.6rem] text-navy transition-colors hover:bg-card"
                       >
                         <Star className="h-3 w-3" /> Principal
@@ -294,6 +338,7 @@ export function PropertyForm({ property }: { property?: Property }) {
               </div>
             </>
           )}
+
         </div>
 
         <button

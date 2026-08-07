@@ -29,6 +29,8 @@ import {
   STATUSES,
 } from "@/lib/properties";
 import { SITE, waLink } from "@/lib/site";
+import { KeyLoader, KeySpinner } from "@/components/site/KeyLoader";
+
 
 export const Route = createFileRoute("/propiedades/$id")({
   head: () => ({
@@ -61,7 +63,10 @@ function Detalle() {
   });
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [loaded, setLoaded] = useState<Record<string, boolean>>({});
+  const markLoaded = (src: string) => setLoaded((prev) => ({ ...prev, [src]: true }));
   const touchStart = useRef<number | null>(null);
+
 
   useEffect(() => {
     setActive(0);
@@ -86,8 +91,9 @@ function Detalle() {
   });
 
   if (isLoading) {
-    return <div className="mx-auto max-w-7xl px-5 py-32 text-sm text-muted-foreground">Cargando…</div>;
+    return <KeyLoader message="Cargando propiedad…" />;
   }
+
 
   if (!property) {
     return (
@@ -166,11 +172,20 @@ function Detalle() {
                   alt={property.title}
                   fetchPriority="high"
                   decoding="async"
-                  className="h-full w-full object-cover"
+                  onLoad={() => markLoaded(images[active])}
+                  onError={() => markLoaded(images[active])}
+                  className={`h-full w-full object-cover transition-opacity duration-300 ${
+                    loaded[images[active]] ? "opacity-100" : "opacity-0"
+                  }`}
                 />
-
+                {!loaded[images[active]] && (
+                  <div className="absolute inset-0">
+                    <KeySpinner className="h-16 w-16" />
+                  </div>
+                )}
               </button>
             ) : (
+
               <div className="grid h-full place-items-center font-display text-4xl text-muted-foreground">
                 C&amp;D
               </div>
