@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BedDouble, Bath, Maximize, MapPin } from "lucide-react";
 import {
@@ -24,8 +25,29 @@ function StatusTag({ status }: { status: string }) {
 }
 
 export function PropertyCard({ property }: { property: Property }) {
-  const cover = property.images?.[0];
+  const images = property.images ?? [];
+  const [index, setIndex] = useState(0);
+  const [hover, setHover] = useState(false);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const cover = images[index] ?? images[0];
   const lines = priceLines(property);
+
+  useEffect(() => {
+    if (!hover || images.length < 2) return;
+    // Precargamos todas las fotos para que el cambio sea instantáneo.
+    images.forEach((img) => {
+      const preload = new Image();
+      preload.src = imageUrl(img, 600);
+    });
+    timer.current = setInterval(() => {
+      setIndex((i) => (i + 1) % images.length);
+    }, 1200);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+      timer.current = null;
+    };
+  }, [hover, images.length]);
+
 
   return (
     <Link
