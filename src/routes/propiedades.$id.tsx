@@ -408,13 +408,22 @@ function Detalle() {
               </button>
             </>
           )}
-          <img
-            src={imageUrl(images[active], 1600)}
-            alt={`${property.title} — foto ${active + 1}`}
-            onClick={(e) => e.stopPropagation()}
-            decoding="async"
-            className="max-h-[88vh] max-w-full rounded-xl object-contain"
-          />
+          <div className="relative flex max-h-[88vh] max-w-full items-center justify-center">
+            {images.map((img, i) => (
+              <img
+                key={img}
+                src={imageUrl(img, 1200)}
+                alt={`${property.title} — foto ${i + 1}`}
+                onClick={(e) => e.stopPropagation()}
+                decoding="async"
+                loading="eager"
+                className={`max-h-[88vh] max-w-full rounded-xl object-contain ${
+                  i === active ? "relative" : "pointer-events-none absolute inset-0 m-auto opacity-0"
+                }`}
+              />
+            ))}
+          </div>
+
 
           <span className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-background/90 px-4 py-1 text-xs text-navy">
             {active + 1} / {images.length}
