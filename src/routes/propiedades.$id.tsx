@@ -79,6 +79,15 @@ function Detalle() {
     setActive((i) => (i + delta + images.length) % images.length);
   };
 
+  // Precargamos todas las fotos (y la siguiente en alta) para que el cambio sea instantáneo.
+  useEffect(() => {
+    if (!images.length) return;
+    images.forEach((img) => {
+      const pre = new Image();
+      pre.src = imageUrl(img, 1200);
+    });
+  }, [images.join("|")]);
+
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
