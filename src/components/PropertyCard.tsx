@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BedDouble, Bath, Maximize, MapPin } from "lucide-react";
 import {
@@ -24,27 +25,67 @@ function StatusTag({ status }: { status: string }) {
 }
 
 export function PropertyCard({ property }: { property: Property }) {
-  const cover = property.images?.[0];
+  const images = property.images ?? [];
+  const [index, setIndex] = useState(0);
+  const [hover, setHover] = useState(false);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const cover = images[index] ?? images[0];
   const lines = priceLines(property);
+
+  useEffect(() => {
+    if (!hover || images.length < 2) return;
+    // Precargamos todas las fotos para que el cambio sea instantáneo.
+    images.forEach((img) => {
+      const preload = new Image();
+      preload.src = imageUrl(img, 600);
+    });
+    timer.current = setInterval(() => {
+      setIndex((i) => (i + 1) % images.length);
+    }, 1200);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+      timer.current = null;
+    };
+  }, [hover, images.length]);
+
 
   return (
     <Link
       to="/propiedades/$id"
       params={{ id: property.id }}
       className="lift group block overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-[var(--shadow-soft)]"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => {
+        setHover(false);
+        setIndex(0);
+      }}
     >
       <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
         {cover ? (
-          <img
-            src={imageUrl(cover, 600)}
-            srcSet={`${imageUrl(cover, 400)} 400w, ${imageUrl(cover, 600)} 600w, ${imageUrl(cover, 900)} 900w`}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            alt={property.title}
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-          />
-
+          <>
+            <img
+              key={cover}
+              src={imageUrl(cover, 600)}
+              srcSet={`${imageUrl(cover, 400)} 400w, ${imageUrl(cover, 600)} 600w, ${imageUrl(cover, 900)} 900w`}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              alt={property.title}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+            />
+            {images.length > 1 && hover && (
+              <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+                {images.slice(0, 8).map((img, i) => (
+                  <span
+                    key={img}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === index ? "w-4 bg-background" : "w-1.5 bg-background/60"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <div className="grid h-full place-items-center font-display text-2xl text-muted-foreground">
             C&amp;D
